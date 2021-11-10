@@ -1,0 +1,35 @@
+service: demo-service
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+  environment:
+    SAMPLE_ENV_VAR: ${env:SAMPLE_ENV_VAR}
+
+plugins:
+  - serverless-bundle
+  - serverless-offline
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: hello
+          method: get
+    test:
+      - case1:
+          event:
+            - headerName1: "Value1"
+            - headerName2: "Value2"
+            - body:
+              - fieldName: "Value3"
+          result: "{\n    statusCode: 200,\n    body: {\n      message: `Go Serverless v2.0!`,\n    },\n}"
+
+      - case2:
+          event:
+            - headerName1: "BadHeader"
+          result: "{\n    statusCode: 400,\n    body: {\n      message: `Bad Request!`,\n    },\n}"
+
