@@ -12,20 +12,15 @@ plugins:
   - serverless-bundle
   - serverless-offline
 
-functions:
-  hello:
-    handler: handler.hello
-    events:
-      - http:
-          path: hello
-          method: get
-    test:
+custom:
+  tests:
+    hello:
       - case1:
           event:
             - headerName1: "Value1"
             - headerName2: "Value2"
             - body:
-              - fieldName: "Value3"
+                - fieldName: "Value3"
           result: "{\n    statusCode: 200,\n    body: {\n      message: `Go Serverless v2.0!`,\n    },\n}"
 
       - case2:
@@ -33,3 +28,10 @@ functions:
             - headerName1: "BadHeader"
           result: "{\n    statusCode: 400,\n    body: {\n      message: `Bad Request!`,\n    },\n}"
 
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: hello
+          method: get

@@ -1,33 +1,36 @@
-# Serverless Node.js Starter [![Seed Status](https://api.seed.run/serverless-stack/serverless-nodejs-starter/stages/prod/build_badge)](https://console.seed.run/serverless-stack/serverless-nodejs-starter)
+# Serverless Unit tests DSL Python + NodeJS
 
-A Serverless starter that adds ES6, TypeScript, serverless-offline, linting, environment variables, and unit test support. Part of the [Serverless Stack](http://serverless-stack.com) guide.
+A DSL for specifying Unit tests for Lambda functions directly in serverless.yml. Tests can be generated locally or on CI/CD, which allows for a cleaner workspace and easier tests overview. Supports both Python and NodeJS Lambdas.
 
-[Serverless Node.js Starter](https://github.com/AnomalyInnovations/serverless-nodejs-starter) uses the [serverless-bundle](https://github.com/AnomalyInnovations/serverless-bundle) plugin and the [serverless-offline](https://github.com/dherault/serverless-offline) plugin. It supports:
+## DSL
 
----
+Enter test fixtures, cases and expected results directly in serverless yml. Example:
 
-### Demo
+``` bash
+custom:
+  tests:
+    hello:
+      - case1:
+          event:
+            - headerName1: "Value1"
+            - headerName2: "Value2"
+            - body:
+                - fieldName: "Value3"
+          result: "{\n    statusCode: 200,\n    body: {\n      message: `Go Serverless v2.0!`,\n    },\n}"
 
-A demo version of this service is hosted on AWS - [`https://z6pv80ao4l.execute-api.us-east-1.amazonaws.com/dev/hello`](https://z6pv80ao4l.execute-api.us-east-1.amazonaws.com/dev/hello)
+      - case2:
+          event:
+            - headerName1: "BadHeader"
+          result: "{\n    statusCode: 400,\n    body: {\n      message: `Bad Request!`,\n    },\n}"
+```
 
 ### Requirements
 
 - [Install the Serverless Framework](https://serverless.com/framework/docs/providers/aws/guide/installation/)
 - [Configure your AWS CLI](https://serverless.com/framework/docs/providers/aws/guide/credentials/)
+- [textX](https://github.com/textX/textX)
 
 ### Installation
-
-To create a new Serverless project.
-
-``` bash
-$ serverless install --url https://github.com/AnomalyInnovations/serverless-nodejs-starter --name my-project
-```
-
-Enter the new directory
-
-``` bash
-$ cd my-project
-```
 
 Install the Node.js packages
 
@@ -35,13 +38,9 @@ Install the Node.js packages
 $ npm install
 ```
 
+Install textX
+
 ### Usage
-
-To run a function on your local
-
-``` bash
-$ serverless invoke local --function hello
-```
 
 To simulate API Gateway locally using [serverless-offline](https://github.com/dherault/serverless-offline)
 
@@ -55,10 +54,12 @@ Deploy your project
 $ serverless deploy
 ```
 
-Deploy a single function
+### Tests Usage
+
+Generate tests using
 
 ``` bash
-$ serverless deploy function --function hello
+$ textx generate serverless.yml
 ```
 
 #### Running Tests
