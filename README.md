@@ -6,57 +6,67 @@ A DSL for specifying Unit tests for Lambda functions directly in serverless.yml.
 
 Enter test fixtures, cases and expected results directly in serverless yml. Example:
 
-``` bash
+```bash
 custom:
   tests:
     hello:
-      - case1:
-          event:
-            - headerName1: "Value1"
-            - headerName2: "Value2"
-            - body:
-                - fieldName: "Value3"
-          result: "{\n    statusCode: 200,\n    body: {\n      message: `Go Serverless v2.0!`,\n    },\n}"
-
-      - case2:
-          event:
-            - headerName1: "BadHeader"
-          result: "{\n    statusCode: 400,\n    body: {\n      message: `Bad Request!`,\n    },\n}"
+      - env:
+          - HELLO: "Hello Serverless!"
+      - cases:
+          - case:
+              event:
+                - headerName1: "Value1"
+                - headerName2: "Value2"
+                - body:
+                    - fieldName: "Value3"
+              result: '{"statusCode":200,"body":"{\"message\":\"Hello Serverless!\"}"}'
+          - case:
+              event:
+                - BadHeader: "Value1"
+              result: '{"statusCode":400,"body":"{\"message\":\"Bad Request!\"}"}'
 ```
 
 This will generate the following tests:
 
-``` javascript
-test("case1", async () => {
-  const event = {
-    headers: {
-      headerName1: "Value1",
-      headerName2: "Value2",
-    },
-    body: {
-      fieldName: "Value3",
-    },
-  };
+```javascript
+describe("hello", () => {
+  beforeAll(() => {
+    process.env.HELLO = "Hello Serverless!";
+  });
 
-  const result = await handler.hello(event, context);
+  test("case", async () => {
+    const event = {
+      headers: {
+        headerName1: "Value1",
+        headerName2: "Value2",
+      },
+      body: {
+        fieldName: "Value3",
+      },
+    };
 
-  expect(result).toEqual(
-    "{\n    statusCode: 200,\n    body: {\n      message: `Go Serverless v2.0!`,\n    },\n}"
-  );
-});
+    const result = await hello.handler(event);
 
-test("case2", async () => {
-  const event = {
-    headers: {
-      headerName1: "BadHeader",
-    },
-  };
+    expect(result).toEqual({
+      statusCode: 200,
+      body: '{"message":"Hello Serverless!"}',
+    });
+  });
 
-  const result = await handler.hello(event, context);
+  test("case", async () => {
+    const event = {
+      headers: {
+        BadHeader: "Value1",
+      },
+    };
 
-  expect(result).toEqual(
-    "{\n    statusCode: 400,\n    body: {\n      message: `Bad Request!`,\n    },\n}"
-  );
+    const result = await hello.handler(event);
+
+    expect(result).toEqual({
+      statusCode: 400,
+      body: '{"message":"Bad Request!"}',
+    });
+  });
 });
 ```
 
@@ -70,7 +80,7 @@ test("case2", async () => {
 
 Install the Node.js packages
 
-``` bash
+```bash
 $ npm install
 ```
 
@@ -80,13 +90,13 @@ Install textX
 
 To simulate API Gateway locally using [serverless-offline](https://github.com/dherault/serverless-offline)
 
-``` bash
+```bash
 $ serverless offline start
 ```
 
 Deploy your project
 
-``` bash
+```bash
 $ serverless deploy
 ```
 
@@ -94,7 +104,7 @@ $ serverless deploy
 
 Generate tests using
 
-``` bash
+```bash
 $ textx generate serverless.yml
 ```
 
@@ -102,7 +112,7 @@ $ textx generate serverless.yml
 
 Run your tests using
 
-``` bash
+```bash
 $ npm test
 ```
 

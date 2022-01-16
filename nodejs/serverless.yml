@@ -1,0 +1,55 @@
+service: demo-service
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+  environment:
+    HELLO: ${env:HELLO}
+    API_URL: ${env:API_URL}
+
+plugins:
+  - serverless-bundle
+  - serverless-offline
+
+custom:
+  tests:
+    hello:
+      - env:
+          - HELLO: "Hello Serverless!"
+      - cases:
+          - case:
+              event:
+                - headerName1: "Value1"
+                - headerName2: "Value2"
+                - body:
+                    - fieldName: "Value3"
+              resultEqual: '{"statusCode":200,"body":"{\"message\":\"Hello Serverless!\"}"}'
+          - case:
+              event:
+                - BadHeader: "Value1"
+              resultToEqual: '{"statusCode":400,"body":"{\"message\":\"Bad Request!\"}"}'
+
+    activity:
+      - env:
+          - API_URL: "https://www.boredapi.com/api/activity"
+      - cases:
+          - case:
+              resultToMatchObject:
+                - statusCode: 200
+
+functions:
+  hello:
+    handler: hello.handler
+    events:
+      - http:
+          path: hello
+          method: get
+
+  activity:
+    handler: activity.handler
+    events:
+      - http:
+          path: activity
+          method: get
