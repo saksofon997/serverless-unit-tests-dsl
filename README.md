@@ -22,7 +22,7 @@ custom:
               result: '{"statusCode":200,"body":"{\"message\":\"Hello Serverless!\"}"}'
           - case:
               event:
-                - BadHeader: "Value1"
+                - badHeader: "Value1"
               result: '{"statusCode":400,"body":"{\"message\":\"Bad Request!\"}"}'
 ```
 
@@ -84,9 +84,15 @@ Install the Node.js packages
 $ npm install
 ```
 
+For python, install the requirements in `requirements.txt`
+
+```bash
+$ pip install -r requirements.txt
+```
+
 Install textX
 
-### Usage
+### Serverless Usage
 
 To simulate API Gateway locally using [serverless-offline](https://github.com/dherault/serverless-offline)
 
@@ -116,4 +122,8 @@ Run your tests using
 $ npm test
 ```
 
-We use Jest to run our tests. You can read more about setting up your tests [here](https://facebook.github.io/jest/docs/en/getting-started.html#content).
+For python, run tests using:
+
+```bash
+$ python -m pytest
+```

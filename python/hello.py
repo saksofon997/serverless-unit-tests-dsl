@@ -3,7 +3,7 @@ import os
 
 
 def handler(event, context):
-    if "BadHeader" in event["headers"]:
+    if "badHeader" in event["headers"]:
         return {
             "statusCode": 400,
             "body": json.dumps({

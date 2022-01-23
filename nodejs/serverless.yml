@@ -25,10 +25,10 @@ custom:
                 - headerName2: "Value2"
                 - body:
                     - fieldName: "Value3"
-              resultEqual: '{"statusCode":200,"body":"{\"message\":\"Hello Serverless!\"}"}'
+              resultToEqual: '{"statusCode":200,"body":"{\"message\":\"Hello Serverless!\"}"}'
           - case:
               event:
-                - BadHeader: "Value1"
+                - badHeader: "Value1"
               resultToEqual: '{"statusCode":400,"body":"{\"message\":\"Bad Request!\"}"}'
 
     activity:

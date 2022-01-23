@@ -1,5 +1,5 @@
 export async function handler(event) {
-  if ("BadHeader" in event.headers) {
+  if ("badHeader" in event.headers) {
     return {
       statusCode: 400,
       body: JSON.stringify({

@@ -1,0 +1,24 @@
+{
+  "name": "serverless-plugin-tests",
+  "version": "1.0.0",
+  "description": "Serverless Plugin Tests",
+  "main": "src/index.js",
+  "author": {
+    "name": "Aleksandar Petaković"
+  },
+  "homepage": "https://github.com/saksofon997/serverless-unit-tests-dsl",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saksofon997/serverless-unit-tests-dsl.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^4.13.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "jest": "^21.2.1"
+  },
+  "dependencies": {
+    "request": "^2.83.0"
+  }
+}

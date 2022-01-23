@@ -27,7 +27,7 @@ describe("hello", () => {
   test("case", async () => {
     const event = {
       headers: {
-        BadHeader: "Value1",
+        badHeader: "Value1",
       },
     };
 

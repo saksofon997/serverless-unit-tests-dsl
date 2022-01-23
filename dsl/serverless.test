@@ -1,23 +1,37 @@
-service: demo-service
+< hello
+  < env
+    [
+      HELLO: "Hello Serverless!"
+    ]
+  >
+  < cases
+    [
+      < case1
+        {
+          < event
+            {
+              "headers" = {
+                  "headerName1" : "Value1",
+                  "headerName2" : "Value2"
+              },
+              "body" = {
+                  "fieldName" : "Value3"
+              }
+            }
+          >
+          < resultToEqual
+            {
+              "statusCode" : 200,
+              "body" : "{\"message\":\"Hello Serverless!\"}"
+            }
+          >
+        }
+      >
+    ]
+  >
+>
 
-provider:
-  name: aws
-  runtime: python3.9
-  stage: dev
-  region: us-east-1
-  environment:
-    HELLO: ${env:HELLO}
-    API_URL: ${env:API_URL}
-
-plugins:
-  - serverless-python-requirements
-  - serverless-offline
-
-custom:
-  pythonRequirements:
-    dockerizePip: non-linux
-
-  tests:
+tests:
     hello:
       - env:
           - HELLO: "Hello Serverless!"
@@ -41,18 +55,3 @@ custom:
           - case:
               resultToMatchObject:
                 - statusCode: 200
-
-functions:
-  hello:
-    handler: hello.handler
-    events:
-      - http:
-          path: hello
-          method: get
-
-  activity:
-    handler: activity.handler
-    events:
-      - http:
-          path: activity
-          method: get
