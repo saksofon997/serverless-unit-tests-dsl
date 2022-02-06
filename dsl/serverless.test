@@ -1,57 +1,55 @@
-< hello
-  < env
-    [
-      HELLO: "Hello Serverless!"
-    ]
+< type = JS >
+
+< function = hello
+  < env = json
+    {
+      "HELLO": "Hello Serverless!"
+    }
   >
-  < cases
-    [
-      < case1
-        {
-          < event
-            {
-              "headers" = {
-                  "headerName1" : "Value1",
-                  "headerName2" : "Value2"
-              },
-              "body" = {
-                  "fieldName" : "Value3"
-              }
-            }
-          >
-          < resultToEqual
-            {
-              "statusCode" : 200,
-              "body" : "{\"message\":\"Hello Serverless!\"}"
-            }
-          >
+  < case = helloCase1
+    < input = json
+      {
+        "headerName1": "Value1",
+        "headerName2": "Value2",
+        "body": {
+          "fieldName": "Value3"
         }
-      >
-    ]
+      }
+    >
+    < output = json
+      {
+        "statusCode": 200,
+        "body": "{\"message\":\"Hello Serverless!\"}"
+      }
+    >
+  >
+  < case = helloCase2
+    < input = json
+      {
+        "badHeader": "Value1"
+      }
+    >
+    < output = json
+      {
+        "statusCode": 400,
+        "body":"{\"message\":\"Bad Request!\"}"
+      }
+    >
   >
 >
 
-tests:
-    hello:
-      - env:
-          - HELLO: "Hello Serverless!"
-      - cases:
-          - case:
-              event:
-                - headerName1: "Value1"
-                - headerName2: "Value2"
-                - body:
-                    - fieldName: "Value3"
-              resultToEqual: '{"statusCode":200,"body":"{\"message\":\"Hello Serverless!\"}"}'
-          - case:
-              event:
-                - badHeader: "Value1"
-              resultToEqual: '{"statusCode":400,"body":"{\"message\":\"Bad Request!\"}"}'
-
-    activity:
-      - env:
-          - API_URL: "https://www.boredapi.com/api/activity"
-      - cases:
-          - case:
-              resultToMatchObject:
-                - statusCode: 200
+< function = activity
+  < env = json
+    {
+      "API_URL": "https://www.boredapi.com/api/activity"
+    }
+  >
+  < case = activityCase1
+    < input = {} >
+    < output >= json
+      {
+        "statusCode": 200
+      }
+    >
+  >
+>

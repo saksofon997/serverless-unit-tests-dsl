@@ -1,0 +1,21 @@
+/* Test suite for serverless app */
+
+Suite:
+    '<' 'type' '=' =AppType '>'
+    
+    functions += [Function]
+;
+
+Function:
+    '<' 'function' '=' name=ID
+        env = [Environment]
+    '>'
+;
+
+AppType:
+    JS | PY
+;
+
+Comment:
+    /\/\/.*$/
+;
