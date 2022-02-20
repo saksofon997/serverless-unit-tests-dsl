@@ -1,19 +1,65 @@
 /* Test suite for serverless app */
 
 Suite:
-    '<' 'type' '=' =AppType '>'
+    '<' 'type' '=' type = AppType '>'
     
-    functions += [Function]
+    functions += Function
 ;
 
 Function:
-    '<' 'function' '=' name=ID
-        env = [Environment]
+    '<' 'function' '=' name = ID
+        env = Environment?
+        cases += Case
     '>'
 ;
 
+Environment:
+    '<' 'env' '=' type = ValueType
+        value = Value
+    '>'
+;
+
+Case:
+    '<' 'case' '=' name = ID
+        input = Input?
+        output = Output
+    '>'
+;
+
+Input:
+    '<' 'input' '=' type = ValueType
+        value = Value
+    '>'
+;
+
+Output:
+    '<' 'output' '=' type = ValueType
+        value = Value
+    '>'
+;
+
+ValueType:
+    "string" | "int" | "bool" | "json" | "null"
+;
+
+Value:
+    STRING | NUMBER | BOOL | JSONObject | JSONArray | "null"
+;
+
+JSONArray:
+    "[" values *= Value[','] "]"
+;
+
+JSONObject:
+    "{" members *= Member[','] "}"
+;
+
+Member:
+    key = STRING ':' value = Value
+;
+
 AppType:
-    JS | PY
+    "JS" | "PY"
 ;
 
 Comment:

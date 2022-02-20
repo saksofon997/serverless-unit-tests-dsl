@@ -45,8 +45,8 @@
     }
   >
   < case = activityCase1
-    < input = {} >
-    < output >= json
+    < input = null null >
+    < output = json
       {
         "statusCode": 200
       }
