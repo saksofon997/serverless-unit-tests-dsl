@@ -26,8 +26,16 @@ Run python scripts by activating the virtual environment first, using
 $ pipenv shell
 ```
 
+Exit with
+
+```bash
+(venv) $ deactivate
+```
+
 and then
 
 ```bash
 $ python -m name_of_the_script
 ```
+
+To use VSCode import management, press shift+command+p, and enter "Python: Select Interpreter". Select the correct virtual environment.

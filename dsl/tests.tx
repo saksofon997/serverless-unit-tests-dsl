@@ -21,6 +21,7 @@ Environment:
 
 Case:
     '<' 'case' '=' name = ID
+        env = Environment?
         input = Input?
         output = Output
     '>'

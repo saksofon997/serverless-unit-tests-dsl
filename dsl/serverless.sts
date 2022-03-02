@@ -53,3 +53,22 @@
     >
   >
 >
+
+< function = math
+  < env = json
+    {
+      "OPERATION": "multiply"
+    }
+  >
+  < case = mathCase1
+    < input = json
+      {
+        "a": 2,
+        "b": 2
+      }
+    >
+    < output = int
+      4
+    >
+  >
+>
