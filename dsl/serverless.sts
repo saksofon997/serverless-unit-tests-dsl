@@ -19,7 +19,7 @@
     < output = json
       {
         "statusCode": 200,
-        "body": "{\"message\":\"Hello Serverless!\"}"
+        "body": "{\\"message\\":\\"Hello Serverless!\\"}"
       }
     >
   >
@@ -32,7 +32,7 @@
     < output = json
       {
         "statusCode": 400,
-        "body":"{\"message\":\"Bad Request!\"}"
+        "body":"{\\"message\\":\\"Bad Request!\\"}"
       }
     >
   >

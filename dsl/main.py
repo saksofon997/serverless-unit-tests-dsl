@@ -1,11 +1,7 @@
 from __future__ import unicode_literals
-import collections
 import json
 import os
 from os.path import dirname, join
-from pprint import pformat
-import re
-import sys
 from textx import metamodel_from_file, language, generator
 from textx.export import metamodel_export, model_export
 import jinja2
@@ -71,17 +67,12 @@ def main():
     # Build Test Suite model from serverless.sts file
     test_suite = entity_mm.model_from_file(join(this_folder, 'serverless.sts'))
 
-    def get_json(obj):
-        return json.loads(
-            json.dumps(obj, default=lambda o: getattr(o, '__dict__', str(o)))
-        )
-
     if test_suite.type == "JS":
         jinja_template = jinja_env.get_template("nodejs.template")
 
         for function in test_suite.functions:
 
-            with open(join(f"tests", f"{function.name}.js"), 'w') as f:
+            with open(join(f"tests", f"{function.name}.test.js"), 'w') as f:
                 f.write(jinja_template.render(
                     function=function, type=test_suite.type))
     else:
@@ -89,7 +80,7 @@ def main():
 
         for function in test_suite.functions:
 
-            with open(join(f"tests", f"{function.name}.py"), 'w') as f:
+            with open(join(f"tests", f"test_{function.name}.py"), 'w') as f:
                 f.write(jinja_template.render(
                     function=function, type=test_suite.type))
 
