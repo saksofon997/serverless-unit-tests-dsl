@@ -1,4 +1,4 @@
-< type = JS >
+< type = PY >
 
 < function = hello
   < env = json

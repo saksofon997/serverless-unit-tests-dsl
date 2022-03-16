@@ -54,11 +54,6 @@ def main():
 
     entity_mm = metamodel_from_file(metamodel_path)
 
-    # Export to .dot file for visualization
-    tests_folder = join(this_folder, 'tests')
-    if not os.path.exists(tests_folder):
-        os.mkdir(tests_folder)
-
     jinja_env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(this_folder),
         trim_blocks=True,
@@ -68,19 +63,27 @@ def main():
     test_suite = entity_mm.model_from_file(join(this_folder, 'serverless.sts'))
 
     if test_suite.type == "JS":
+        tests_folder = join(this_folder, 'tests_js')
+        if not os.path.exists(tests_folder):
+            os.mkdir(tests_folder)
+
         jinja_template = jinja_env.get_template("nodejs.template")
 
         for function in test_suite.functions:
 
-            with open(join(f"tests", f"{function.name}.test.js"), 'w') as f:
+            with open(join(f"tests_js", f"{function.name}.test.js"), 'w') as f:
                 f.write(jinja_template.render(
                     function=function, type=test_suite.type))
     else:
+        tests_folder = join(this_folder, 'tests_py')
+        if not os.path.exists(tests_folder):
+            os.mkdir(tests_folder)
+
         jinja_template = jinja_env.get_template("python.template")
 
         for function in test_suite.functions:
 
-            with open(join(f"tests", f"test_{function.name}.py"), 'w') as f:
+            with open(join(f"tests_py", f"test_{function.name}.py"), 'w') as f:
                 f.write(jinja_template.render(
                     function=function, type=test_suite.type))
 
