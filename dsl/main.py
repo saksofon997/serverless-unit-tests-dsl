@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-import json
 import os
 from os.path import dirname, join
 from textx import metamodel_from_file, language, generator

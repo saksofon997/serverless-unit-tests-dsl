@@ -4,15 +4,27 @@
 import * as math from "../math";
 
 describe("math", () => {
-  beforeAll(() => {
-      process.env.OPERATION = "multiply";
-  });
-
   test("mathCase1", async () => {
+    process.env.OPERATION = "multiply";
+
     const event = {
-      "a": 2,       "b": 2    };
+      "a": 2,
+      "b": 3};
+
     const result = await math.handler(event);
 
-    expect(result).toEqual(4);
+    expect(result).toEqual(6);
+  });
+
+  test("mathCase2", async () => {
+    process.env.OPERATION = "add";
+
+    const event = {
+      "a": 2,
+      "b": 3};
+
+    const result = await math.handler(event);
+
+    expect(result).toEqual(5);
   });
 });

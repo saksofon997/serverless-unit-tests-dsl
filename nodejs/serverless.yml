@@ -13,32 +13,6 @@ plugins:
   - serverless-bundle
   - serverless-offline
 
-custom:
-  tests:
-    hello:
-      - env:
-          - HELLO: "Hello Serverless!"
-      - cases:
-          - case:
-              event:
-                - headerName1: "Value1"
-                - headerName2: "Value2"
-                - body:
-                    - fieldName: "Value3"
-              resultToEqual: '{"statusCode":200,"body":"{\"message\":\"Hello Serverless!\"}"}'
-          - case:
-              event:
-                - badHeader: "Value1"
-              resultToEqual: '{"statusCode":400,"body":"{\"message\":\"Bad Request!\"}"}'
-
-    activity:
-      - env:
-          - API_URL: "https://www.boredapi.com/api/activity"
-      - cases:
-          - case:
-              resultToMatchObject:
-                - statusCode: 200
-
 functions:
   hello:
     handler: hello.handler
@@ -49,6 +23,13 @@ functions:
 
   activity:
     handler: activity.handler
+    events:
+      - http:
+          path: activity
+          method: get
+  
+  math:
+    handler: math.handler
     events:
       - http:
           path: activity

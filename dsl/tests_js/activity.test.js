@@ -5,14 +5,16 @@ import * as activity from "../activity";
 
 describe("activity", () => {
   beforeAll(() => {
-      process.env.API_URL = "https://www.boredapi.com/api/activity";
+    process.env.API_URL = "https://www.boredapi.com/api/activity";
   });
 
   test("activityCase1", async () => {
+
     const event = null;
     const result = await activity.handler(event);
 
     expect(result).toEqual({
-      "statusCode": 200    });
+      "statusCode": 200
+    });
   });
 });

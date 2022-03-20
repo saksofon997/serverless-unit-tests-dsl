@@ -9,8 +9,10 @@
   < case = helloCase1
     < input = json
       {
-        "headerName1": "Value1",
-        "headerName2": "Value2",
+        "headers": {
+          "headerName1": "Value1",
+          "headerName2": "Value2"
+        },
         "body": {
           "fieldName": "Value3"
         }
@@ -26,7 +28,9 @@
   < case = helloCase2
     < input = json
       {
-        "badHeader": "Value1"
+        "headers": {
+          "badHeader": "Value1"
+        }
       }
     >
     < output = json
@@ -55,20 +59,36 @@
 >
 
 < function = math
-  < env = json
-    {
-      "OPERATION": "multiply"
-    }
-  >
   < case = mathCase1
+    < env = json
+      {
+        "OPERATION": "multiply"
+      }
+    >
     < input = json
       {
         "a": 2,
-        "b": 2
+        "b": 3
       }
     >
     < output = int
-      4
+      6
+    >
+  >
+  < case = mathCase2
+    < env = json
+      {
+        "OPERATION": "add"
+      }
+    >
+    < input = json
+      {
+        "a": 2,
+        "b": 3
+      }
+    >
+    < output = int
+      5
     >
   >
 >
