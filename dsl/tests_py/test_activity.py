@@ -11,14 +11,16 @@ from activity import handler
 @pytest.fixture(autouse=True)
 def mock_env_vars():
     with mock.patch.dict(os.environ, {
-        "API_URL" : "https://www.boredapi.com/api/activity"
-    }): yield
+        "API_URL": "https://www.boredapi.com/api/activity"
+    }):
+        yield
 
 
-def activityCase1(mock_env_vars_activityCase1):
+def activityCase1():
     event = None
 
     result = handler(event, [])
 
     assert result == {
-        "statusCode": 200}
+        "statusCode": 200
+    }

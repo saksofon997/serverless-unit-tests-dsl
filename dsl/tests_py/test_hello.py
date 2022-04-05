@@ -11,35 +11,40 @@ from hello import handler
 @pytest.fixture(autouse=True)
 def mock_env_vars():
     with mock.patch.dict(os.environ, {
-        "HELLO" : "Hello Serverless!"
-    }): yield
+        "HELLO": "Hello Serverless!"
+    }):
+        yield
 
 
-def helloCase1(mock_env_vars_helloCase1):
+def helloCase1():
     event = {
         "headers": {
-                "headerName1": "Value1",
-        "headerName2": "Value2"
+            "headerName1": "Value1",
+            "headerName2": "Value2"
         },
         "body": {
-                "fieldName": "Value3"
-        }}
+            "fieldName": "Value3"
+        }
+    }
 
     result = handler(event, [])
 
     assert result == {
         "statusCode": 200,
-        "body": "{\"message\":\"Hello Serverless!\"}"}
+        "body": "{\"message\":\"Hello Serverless!\"}"
+    }
 
 
-def helloCase2(mock_env_vars_helloCase2):
+def helloCase2():
     event = {
         "headers": {
-                "badHeader": "Value1"
-        }}
+            "badHeader": "Value1"
+        }
+    }
 
     result = handler(event, [])
 
     assert result == {
         "statusCode": 400,
-        "body": "{\"message\":\"Bad Request!\"}"}
+        "body": "{\"message\":\"Bad Request!\"}"
+    }

@@ -9,12 +9,11 @@ describe("activity", () => {
   });
 
   test("activityCase1", async () => {
-
     const event = null;
     const result = await activity.handler(event);
 
     expect(result).toEqual({
-      "statusCode": 200
+      statusCode: 200    
     });
   });
 });

@@ -9,36 +9,36 @@ describe("hello", () => {
   });
 
   test("helloCase1", async () => {
-
     const event = {
-      "headers": {
-            "headerName1": "Value1",
-      "headerName2": "Value2"
+      headers: {
+        headerName1: "Value1",
+        headerName2: "Value2"
       },
-      "body": {
-            "fieldName": "Value3"
-      }};
+      body: {
+        fieldName: "Value3"
+      }    
+    };
 
     const result = await hello.handler(event);
 
     expect(result).toEqual({
-      "statusCode": 200,
-      "body": "{\"message\":\"Hello Serverless!\"}"
+      statusCode: 200,
+      body: "{\"message\":\"Hello Serverless!\"}"    
     });
   });
 
   test("helloCase2", async () => {
-
     const event = {
-      "headers": {
-            "badHeader": "Value1"
-      }};
+      headers: {
+        badHeader: "Value1"
+      }    
+    };
 
     const result = await hello.handler(event);
 
     expect(result).toEqual({
-      "statusCode": 400,
-      "body": "{\"message\":\"Bad Request!\"}"
+      statusCode: 400,
+      body: "{\"message\":\"Bad Request!\"}"    
     });
   });
 });

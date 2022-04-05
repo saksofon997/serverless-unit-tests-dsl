@@ -8,8 +8,9 @@ describe("math", () => {
     process.env.OPERATION = "multiply";
 
     const event = {
-      "a": 2,
-      "b": 3};
+      a: 2,
+      b: 3    
+    };
 
     const result = await math.handler(event);
 
@@ -20,8 +21,9 @@ describe("math", () => {
     process.env.OPERATION = "add";
 
     const event = {
-      "a": 2,
-      "b": 3};
+      a: 2,
+      b: 3    
+    };
 
     const result = await math.handler(event);
 

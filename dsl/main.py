@@ -1,9 +1,30 @@
-from __future__ import unicode_literals
 import os
+import jinja2
+
 from os.path import dirname, join
 from textx import metamodel_from_file, language, generator
 from textx.export import metamodel_export, model_export
-import jinja2
+from textx.exceptions import TextXSemanticError
+
+from model_processors import check_env_override, duplicate_case_names_check, duplicate_function_names_check
+from object_processors import environment_processor
+
+
+def model_processor(model, metamodel):
+    try:
+        # Errors
+        duplicate_function_names_check(model, metamodel)
+        duplicate_case_names_check(model, metamodel)
+        # Warnings
+        check_env_override(model, metamodel)
+    except TextXSemanticError as e:
+        print(e.message)
+
+
+def object_processors():
+    return {
+        "Environment": environment_processor
+    }
 
 
 def dot_model_export(model, output_path):
@@ -51,7 +72,12 @@ this_folder = dirname(__file__)
 def main():
     metamodel_path = join(dirname(__file__), 'tests.tx')
 
-    entity_mm = metamodel_from_file(metamodel_path)
+    entity_mm = metamodel_from_file(metamodel_path, autokwd=True)
+
+    # Register model processor on the meta-model instance
+    entity_mm.register_model_processor(model_processor)
+
+    entity_mm.register_obj_processors(object_processors())
 
     jinja_env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(this_folder),

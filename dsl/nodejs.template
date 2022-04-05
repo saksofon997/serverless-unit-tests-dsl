@@ -18,58 +18,58 @@ describe("{{function.name}}", () => {
       {% for env_var in case.env.value.members %}
     process.env.{{env_var.key}} = "{{env_var.value}}";
       {% endfor %}
-    {% endif %}
 
+    {% endif %}
     {% if case.input %}
       {% if case.input.type == "json" %}
     const event = {
-          {% for member in case.input.value.members recursive %}
-          {% if "JSONObject" in member.value.__class__.__name__ %}
-      "{{ member.key }}": {
-      {{ loop(member.value.members) }}
-      }{% if not loop.last %},
-      {% endif %}
-          {% elif "JSONArray" in member.value.__class__.__name__ %}
-      "{{ member.key }}": [
-            {% for value in member.value.values %}
-              {% if "JSONObject" in value.__class__.__name__ %}
-        {  {{ loop(value.members) }}
-        }{% if not loop.last %},
-        {% endif %}
-              {% elif "JSONArray" in value.__class__.__name__ %}
-        [{{ loop(value.values) }}
-        ]{% if not loop.last %},
-        {% endif %}
-              {% elif "null" in value.__class__.__name__ %}
-        null{% if not loop.last %},
-        {% endif %}
-              {% elif "str" in member.value.__class__.__name__ %}
-        "{{ value }}"{% if not loop.last %},
-        {% endif %}
-              {% elif "bool" in member.value.__class__.__name__ %}
-        {{ value }}{% if not loop.last %},
-        {% endif %}
-              {% elif "int" in member.value.__class__.__name__ %}
-        {{ value }}{% if not loop.last %},
-        {% endif %}
-      ]{% if not loop.last %},{% endif %}
-              {% endif %}
-            {% endfor %}
-          {% elif "null" in member.value.__class__.__name__ %}
-      "{{ member.key }}": null{% if not loop.last %},
-      {% endif %}
-          {% elif "str" in member.value.__class__.__name__ %}
-      "{{ member.key }}": "{{ member.value }}"{% if not loop.last %},
-      {% endif %}
-          {% elif "bool" in member.value.__class__.__name__ %}
-      "{{ member.key }}": {{ member.value }}{% if not loop.last %},
-      {% endif %}
-          {% elif "int" in member.value.__class__.__name__ %}
-      "{{ member.key }}": {{ member.value }}{% if not loop.last %},
-      {% endif %}
-          {% endif %}
-        {% endfor -%}
-
+{% for member in case.input.value.members recursive %}
+{% if "JSONObject" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  {{ member.key }}: {
+{{ loop(member.value.members) }}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  }{% if not loop.last %},
+{% endif %}
+{% elif "JSONArray" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  {{ member.key }}: [
+{% for value in member.value.values %}
+{% if "JSONObject" in value.__class__.__name__ %}
+{ {{ loop(value.members) }}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  }{% if not loop.last %},
+{% endif %}
+{% elif "JSONArray" in value.__class__.__name__ %}
+[{{ loop(value.values) }}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  ]{% if not loop.last %},
+{% endif %}
+{% elif "null" in value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  null{% if not loop.last %},
+{% endif %}
+{% elif "str" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  "{{ value }}"{% if not loop.last %},
+{% endif %}
+{% elif "bool" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  {{ value }}{% if not loop.last %},
+{% endif %}
+{% elif "int" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  {{ value }}{% if not loop.last %},
+{% endif %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  ]{% if not loop.last %},{% endif %}
+{% endif %}
+{% endfor %}
+{% elif "null" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  {{ member.key }}: null{% if not loop.last %},
+{% endif %}
+{% elif "str" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  {{ member.key }}: "{{ member.value }}"{% if not loop.last %},
+{% endif %}
+{% elif "bool" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  {{ member.key }}: {{ member.value }}{% if not loop.last %},
+{% endif %}
+{% elif "int" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  {{ member.key }}: {{ member.value }}{% if not loop.last %},
+{% endif %}
+{% endif %}
+{% endfor %}
+    
     };
 
       {% else %}
@@ -83,53 +83,53 @@ describe("{{function.name}}", () => {
     {% if case.output %}
       {% if case.output.type == "json" %}
     expect(result).toEqual({
-        {% for member in case.output.value.members recursive %}
-          {% if "JSONObject" in member.value.__class__.__name__ %}
-      "{{ member.key }}": {
-      {{ loop(member.value.members) }}
-      }{% if not loop.last %},
-      {% endif %}
-          {% elif "JSONArray" in member.value.__class__.__name__ %}
-      "{{ member.key }}": [
-            {% for value in member.value.values %}
-              {% if "JSONObject" in value.__class__.__name__ %}
-        {     {{ loop(value.members) }}
-        }{% if not loop.last %},
-        {% endif %}
-              {% elif "JSONArray" in value.__class__.__name__ %}
-        [{{ loop(value.values) }}
-        ]{% if not loop.last %},
-        {% endif %}
-              {% elif "null" in value.__class__.__name__ %}
-        null{% if not loop.last %},
-        {% endif %}
-              {% elif "str" in member.value.__class__.__name__ %}
-        "{{ value }}"{% if not loop.last %},
-        {% endif %}
-              {% elif "bool" in member.value.__class__.__name__ %}
-        {{ value }}{% if not loop.last %},
-        {% endif %}
-              {% elif "int" in member.value.__class__.__name__ %}
-        {{ value }}{% if not loop.last %},
-        {% endif %}
-      ]{% if not loop.last %},{% endif %}
-              {% endif %}
-            {% endfor %}
-          {% elif "null" in member.value.__class__.__name__ %}
-      "{{ member.key }}": null{% if not loop.last %},
-      {% endif %}
-          {% elif "str" in member.value.__class__.__name__ %}
-      "{{ member.key }}": "{{ member.value }}"{% if not loop.last %},
-      {% endif %}
-          {% elif "bool" in member.value.__class__.__name__ %}
-      "{{ member.key }}": {{ member.value }}{% if not loop.last %},
-      {% endif %}
-          {% elif "int" in member.value.__class__.__name__ %}
-      "{{ member.key }}": {{ member.value }}{% if not loop.last %},
-      {% endif %}
-          {% endif %}
-        {% endfor %}
-
+{% for member in case.output.value.members recursive %}
+{% if "JSONObject" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  {{ member.key }}: {
+{{ loop(member.value.members) }}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  }{% if not loop.last %},
+{% endif %}
+{% elif "JSONArray" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  {{ member.key }}: [
+{% for value in member.value.values %}
+{% if "JSONObject" in value.__class__.__name__ %}
+{ {{ loop(value.members) }}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  }{% if not loop.last %},
+{% endif %}
+{% elif "JSONArray" in value.__class__.__name__ %}
+[{{ loop(value.values) }}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  ]{% if not loop.last %},
+{% endif %}
+{% elif "null" in value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  null{% if not loop.last %},
+{% endif %}
+{% elif "str" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  "{{ value }}"{% if not loop.last %},
+{% endif %}
+{% elif "bool" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  {{ value }}{% if not loop.last %},
+{% endif %}
+{% elif "int" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  {{ value }}{% if not loop.last %},
+{% endif %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  ]{% if not loop.last %},{% endif %}
+{% endif %}
+{% endfor %}
+{% elif "null" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  {{ member.key }}: null{% if not loop.last %},
+{% endif %}
+{% elif "str" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  {{ member.key }}: "{{ member.value }}"{% if not loop.last %},
+{% endif %}
+{% elif "bool" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  {{ member.key }}: {{ member.value }}{% if not loop.last %},
+{% endif %}
+{% elif "int" in member.value.__class__.__name__ %}
+{% for it in range(loop.depth + 2) %}  {% endfor -%}  {{ member.key }}: {{ member.value }}{% if not loop.last %},
+{% endif %}
+{% endif %}
+{% endfor %}
+    
     });
       {% else %}
     expect(result).toEqual({{case.output.value}});
