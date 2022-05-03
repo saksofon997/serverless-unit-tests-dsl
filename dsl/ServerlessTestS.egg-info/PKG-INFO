@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: ServerlessTestS
+Version: 0.0.1
+Summary: Serverless Unit Tests Generator
+Home-page: https://github.com/saksofon997/serverless-unit-tests-dsl
+Author: Aleksandar Petaković
+License: MIT
+Keywords: DSL,Serverless,Lambda,Unit,Test
+Platform: UNKNOWN
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Intended Audience :: Developers
+Description-Content-Type: text/markdown
+
+file: README.md
+

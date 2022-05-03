@@ -1,0 +1,7 @@
+[textx_generators]
+serverless_unit_test_dsl_dot = sts_generator.main:dot_generator
+serverless_unit_test_dsl_test = sts_generator.main:tests_generator
+
+[textx_languages]
+serverless_unit_test_dsl = sts_generator.main:serverless_unit_test_dsl
+

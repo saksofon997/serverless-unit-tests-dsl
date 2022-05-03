@@ -39,3 +39,17 @@ $ python -m name_of_the_script
 ```
 
 To use VSCode import management, press shift+command+p, and enter "Python: Select Interpreter". Select the correct virtual environment.
+
+### Packaging and using the packaged version
+
+From the main projects(git repository) root folder, run the following command to install the ServerlessTestS generator as a PyPi package:
+
+```bash
+$ pip install -e dsl
+```
+
+Now it is possible to use the generator through textX, example:
+
+```bash
+$ textx generate serverless.sts --target Tests -o test
+```

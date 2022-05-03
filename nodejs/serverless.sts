@@ -1,0 +1,94 @@
+< type = JS >
+
+< function = hello
+  < env = json
+    {
+      "HELLO": "Hello Serverless!"
+    }
+  >
+  < case = helloCase1
+    < input = json
+      {
+        "headers": {
+          "headerName1": "Value1",
+          "headerName2": "Value2"
+        },
+        "body": {
+          "fieldName": "Value3"
+        }
+      }
+    >
+    < output = json
+      {
+        "statusCode": 200,
+        "body": "{\\"message\\":\\"Hello Serverless!\\"}"
+      }
+    >
+  >
+  < case = helloCase2
+    < input = json
+      {
+        "headers": {
+          "badHeader": "Value1"
+        }
+      }
+    >
+    < output = json
+      {
+        "statusCode": 400,
+        "body":"{\\"message\\":\\"Bad Request!\\"}"
+      }
+    >
+  >
+>
+
+< function = activity
+  < env = json
+    {
+      "API_URL": "https://www.boredapi.com/api/activity"
+    }
+  >
+  < case = activityCase1
+    < input = null null >
+    < output = json
+      {
+        "statusCode": 200
+      }
+    >
+  >
+>
+
+< function = math
+  < case = mathCase1
+    < env = json
+      {
+        "OPERATION": "multiply"
+      }
+    >
+    < input = json
+      {
+        "a": 2,
+        "b": 3
+      }
+    >
+    < output = int
+      6
+    >
+  >
+  < case = mathCase2
+    < env = json
+      {
+        "OPERATION": "add"
+      }
+    >
+    < input = json
+      {
+        "a": 2,
+        "b": 3
+      }
+    >
+    < output = int
+      5
+    >
+  >
+>

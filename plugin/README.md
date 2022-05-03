@@ -2,8 +2,7 @@
 
 Test your application by running `serverless test`, or test automatically before deployment.
 
-Tests are described with a DSL for easy and no-code writing, and so they can be transpiled to Python or JS code.
-
+Tests are described with a DSL for easy and no-code writing, and as such they can be transpiled to Python or JS code.
 
 ## Install
 Using npm:

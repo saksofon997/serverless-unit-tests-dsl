@@ -1,29 +1,53 @@
 # Serverless Unit tests DSL Python + NodeJS
 
-A DSL for specifying Unit tests for Lambda functions directly in serverless.yml. Tests can be generated locally or on CI/CD, which allows for a cleaner workspace and easier tests overview. Supports both Python and NodeJS Lambdas.
+A DSL for specifying Unit tests for Lambda functions mostly resembling HTML. Tests can be generated locally or on CI/CD, which allows for a cleaner workspace and easier tests overview. Supports both Python and NodeJS Lambdas.
 
 ## DSL
 
-Enter test fixtures, cases and expected results directly in serverless yml. Example:
+Enter test fixtures, cases and expected results directly in text files with `sts` extension. For example:
 
-```bash
-custom:
-  tests:
-    hello:
-      - env:
-          - HELLO: "Hello Serverless!"
-      - cases:
-          - case:
-              event:
-                - headerName1: "Value1"
-                - headerName2: "Value2"
-                - body:
-                    - fieldName: "Value3"
-              result: '{"statusCode":200,"body":"{\"message\":\"Hello Serverless!\"}"}'
-          - case:
-              event:
-                - badHeader: "Value1"
-              result: '{"statusCode":400,"body":"{\"message\":\"Bad Request!\"}"}'
+```html
+< function = hello
+  < env = json
+    {
+      "HELLO": "Hello Serverless!"
+    }
+  >
+  < case = helloCase1
+    < input = json
+      {
+        "headers": {
+          "headerName1": "Value1",
+          "headerName2": "Value2"
+        },
+        "body": {
+          "fieldName": "Value3"
+        }
+      }
+    >
+    < output = json
+      {
+        "statusCode": 200,
+        "body": "{\\"message\\":\\"Hello Serverless!\\"}"
+      }
+    >
+  >
+  < case = helloCase2
+    < input = json
+      {
+        "headers": {
+          "badHeader": "Value1"
+        }
+      }
+    >
+    < output = json
+      {
+        "statusCode": 400,
+        "body":"{\\"message\\":\\"Bad Request!\\"}"
+      }
+    >
+  >
+>
 ```
 
 This will generate the following tests:
@@ -34,37 +58,37 @@ describe("hello", () => {
     process.env.HELLO = "Hello Serverless!";
   });
 
-  test("case", async () => {
+  test("helloCase1", async () => {
     const event = {
       headers: {
         headerName1: "Value1",
-        headerName2: "Value2",
+        headerName2: "Value2"
       },
       body: {
-        fieldName: "Value3",
-      },
+        fieldName: "Value3"
+      }    
     };
 
     const result = await hello.handler(event);
 
     expect(result).toEqual({
       statusCode: 200,
-      body: '{"message":"Hello Serverless!"}',
+      body: "{\"message\":\"Hello Serverless!\"}"    
     });
   });
 
-  test("case", async () => {
+  test("helloCase2", async () => {
     const event = {
       headers: {
-        BadHeader: "Value1",
-      },
+        badHeader: "Value1"
+      }    
     };
 
     const result = await hello.handler(event);
 
     expect(result).toEqual({
       statusCode: 400,
-      body: '{"message":"Bad Request!"}',
+      body: "{\"message\":\"Bad Request!\"}"    
     });
   });
 });
@@ -111,7 +135,7 @@ $ serverless deploy
 Generate tests using
 
 ```bash
-$ textx generate serverless.yml
+$ textx generate serverless.sts --target Tests -o test
 ```
 
 #### Running Tests
