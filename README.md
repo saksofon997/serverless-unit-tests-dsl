@@ -1,6 +1,6 @@
 # Serverless Unit tests DSL Python + NodeJS
 
-A DSL for specifying Unit tests for Lambda functions mostly resembling HTML. Tests can be generated locally or on CI/CD, which allows for a cleaner workspace and easier tests overview. Supports both Python and NodeJS Lambdas.
+A DSL for specifying Unit tests for Lambda functions with grammar mostly resembling HTML and Markdown. Tests can be generated locally or on CI/CD, which allows for a cleaner workspace and easier tests overview. Supports both Python and NodeJS Lambdas.
 
 ## DSL
 
@@ -50,7 +50,7 @@ Enter test fixtures, cases and expected results directly in text files with `sts
 >
 ```
 
-This will generate the following tests:
+This will generate the following tests(when using the javascript template):
 
 ```javascript
 describe("hello", () => {
