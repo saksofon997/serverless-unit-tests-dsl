@@ -1,5 +1,0 @@
-Arpeggio
-textX[cli]
-Jinja2
-future
-textX

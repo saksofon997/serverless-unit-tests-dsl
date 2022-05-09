@@ -1,8 +1,0 @@
-README.md
-setup.py
-ServerlessTestS.egg-info/PKG-INFO
-ServerlessTestS.egg-info/SOURCES.txt
-ServerlessTestS.egg-info/dependency_links.txt
-ServerlessTestS.egg-info/entry_points.txt
-ServerlessTestS.egg-info/requires.txt
-ServerlessTestS.egg-info/top_level.txt
