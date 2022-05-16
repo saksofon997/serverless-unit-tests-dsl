@@ -48,7 +48,7 @@ def dot_model_export(model, output_path):
     print("Done exporting Dot")
 
 
-@language("serverless_unit_test_dsl", "*.sts")
+@language("ServerlessTestS", "*.sts")
 def serverless_unit_test_dsl():
     '''A language for specification of serverless unit tests'''
     metamodel_path = join(dirname(__file__), "tests.tx")
@@ -56,7 +56,7 @@ def serverless_unit_test_dsl():
     return metamodel_from_file(metamodel_path)
 
 
-@generator("serverless_unit_test_dsl", "Dot")
+@generator("ServerlessTestS", "sts-dot")
 def dot_generator(metamodel, model, output_path, overwrite, debug, **custom_args):
     '''Generating dot visualizations from STS grammars'''
     try:
@@ -65,7 +65,7 @@ def dot_generator(metamodel, model, output_path, overwrite, debug, **custom_args
         print("Dot generator failed due to: \n\n" + e.__str__())
 
 
-@generator("serverless_unit_test_dsl", "Tests")
+@generator("ServerlessTestS", "sts-lang")
 def tests_generator(metamodel, model, output_path, overwrite, debug, **custom_args):
     '''Generate Serverless unit tests'''
     try:

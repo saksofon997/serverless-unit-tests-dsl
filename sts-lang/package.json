@@ -1,0 +1,38 @@
+{
+  "name": "sts-lang",
+  "displayName": "ServerlessTestS",
+  "description": "Syntax highlighting for the ServerlessTestS language.",
+  "version": "0.0.1",
+  "publisher": "Aleksandar Petaković",
+  "engines": {
+    "vscode": "^1.67.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "sts",
+        "aliases": [
+          "ServerlessTestS",
+          "sts"
+        ],
+        "extensions": [
+          ".sts"
+        ],
+        "filenamePatterns": [
+          "*.sts"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "sts",
+        "scopeName": "source.sts",
+        "path": "./syntaxes/sts-lang.json"
+      }
+    ]
+  }
+}
