@@ -1,4 +1,4 @@
-//Example ServerlessTestS file
+// Example ServerlessTestS file
 
 < type = PY >
 
@@ -13,7 +13,7 @@
       {
         "headers": {
           "headerName1": "Value1",
-          "headerName2": "Value2"
+          "headerName2": null
         },
         "body": {
           "fieldName": "Value3"
@@ -28,6 +28,9 @@
     >
   >
   < case = helloCase2
+    < env = null
+      null
+    >
     < input = json
       {
         "headers": {
@@ -43,13 +46,13 @@
     >
   >
 >
-
+// This is a comment
 < function = activity
   < env = json
     {
       "API_URL": "https://www.boredapi.com/api/activity"
     }
-  >
+  > // This is also a comment
   < case = activityCase1
     < input = null null >
     < output = json

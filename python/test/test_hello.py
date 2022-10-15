@@ -20,7 +20,7 @@ def helloCase1():
     event = {
         "headers": {
             "headerName1": "Value1",
-            "headerName2": "Value2"
+            "headerName2": None
         },
         "body": {
             "fieldName": "Value3"
@@ -35,7 +35,13 @@ def helloCase1():
     }
 
 
-def helloCase2():
+@pytest.fixture()
+def mock_env_vars_helloCase2():
+    with mock.patch(os.environ, None):
+        yield
+
+
+def helloCase2(mock_env_vars_helloCase2):
     event = {
         "headers": {
             "badHeader": "Value1"

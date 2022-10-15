@@ -12,7 +12,7 @@ describe("hello", () => {
     const event = {
       headers: {
         headerName1: "Value1",
-        headerName2: "Value2"
+        headerName2: null
       },
       body: {
         fieldName: "Value3"
@@ -28,6 +28,8 @@ describe("hello", () => {
   });
 
   test("helloCase2", async () => {
+    process.env = null;
+
     const event = {
       headers: {
         badHeader: "Value1"

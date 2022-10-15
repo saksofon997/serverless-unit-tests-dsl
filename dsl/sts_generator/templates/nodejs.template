@@ -11,18 +11,34 @@ import * as {{function.name}} from "../{{function.name}}";
 describe("{{function.name}}", () => {
 {% if function.env %}
   beforeAll(() => {
-  {% for env_var in function.env.value.members %}
+  {% if function.env.type == "json" %}
+    {% for env_var in function.env.value.members %}
     process.env.{{env_var.key}} = "{{env_var.value}}";
-  {% endfor %}
+    {% endfor %}
+  {% elif function.env.type == "string" %}
+    process.env = "{{function.env.value}}";
+  {% elif function.env.type == "int" or function.env.type == "null" %}
+    process.env = {{function.env.value}};
+  {% elif function.env.type == "bool" %}
+    process.env = {{function.env.value|string|lower}};
+  {% endif %}
   });
 
 {% endif %}
   {% for case in function.cases %}
   test("{{case.name}}", async () => {
     {% if case.env %}
-      {% for env_var in case.env.value.members %}
+      {% if case.env.type == "json" %}
+        {% for env_var in case.env.value.members %}
     process.env.{{env_var.key}} = "{{env_var.value}}";
-      {% endfor %}
+        {% endfor %}
+      {% elif case.env.type == "string" %}
+    process.env = "{{case.env.value}}";
+      {% elif case.env.type == "int" or case.env.type == "null" %}
+    process.env = {{case.env.value}};
+      {% elif case.env.type == "bool" %}
+    process.env = {{case.env.value|string|lower}};
+      {% endif %}
 
     {% endif %}
     {% if case.input %}
@@ -45,14 +61,14 @@ describe("{{function.name}}", () => {
 [{{ loop(value.values) }}
 {{ json_spaces(loop.depth + 2) }}]{% if not loop.last %},
 {% endif %}
-{% elif "null" in value.__class__.__name__ %}
+{% elif value == "null" %}
 {{ json_spaces(loop.depth + 2) }}null{% if not loop.last %},
 {% endif %}
 {% elif "str" in member.value.__class__.__name__ %}
 {{ json_spaces(loop.depth + 2) }}"{{ value }}"{% if not loop.last %},
 {% endif %}
 {% elif "bool" in member.value.__class__.__name__ %}
-{{ json_spaces(loop.depth + 2) }}{{ value }}{% if not loop.last %},
+{{ json_spaces(loop.depth + 2) }}{{ value|string|lower }}{% if not loop.last %},
 {% endif %}
 {% elif "int" in member.value.__class__.__name__ %}
 {{ json_spaces(loop.depth + 2) }}{{ value }}{% if not loop.last %},
@@ -60,14 +76,14 @@ describe("{{function.name}}", () => {
 {{ json_spaces(loop.depth + 2) }}]{% if not loop.last %},{% endif %}
 {% endif %}
 {% endfor %}
-{% elif "null" in member.value.__class__.__name__ %}
+{% elif member.value == "null" %}
 {{ json_spaces(loop.depth + 2) }}{{ member.key }}: null{% if not loop.last %},
 {% endif %}
 {% elif "str" in member.value.__class__.__name__ %}
 {{ json_spaces(loop.depth + 2) }}{{ member.key }}: "{{ member.value }}"{% if not loop.last %},
 {% endif %}
 {% elif "bool" in member.value.__class__.__name__ %}
-{{ json_spaces(loop.depth + 2) }}{{ member.key }}: {{ member.value }}{% if not loop.last %},
+{{ json_spaces(loop.depth + 2) }}{{ member.key }}: {{ member.value|string|lower }}{% if not loop.last %},
 {% endif %}
 {% elif "int" in member.value.__class__.__name__ %}
 {{ json_spaces(loop.depth + 2) }}{{ member.key }}: {{ member.value }}{% if not loop.last %},
@@ -77,8 +93,12 @@ describe("{{function.name}}", () => {
     
     };
 
-      {% else %}
+      {% elif case.input.type == "string" %}
+    const event = "{{case.input.value}}";
+      {% elif case.input.type == "int" or case.input.type == "null" %}
     const event = {{case.input.value}};
+      {% elif case.input.type == "bool" %}
+    const event = {{case.input.value|string|lower}};
       {% endif %}
     const result = await {{function.name}}.handler(event);
     {% else %}
@@ -105,14 +125,14 @@ describe("{{function.name}}", () => {
 [{{ loop(value.values) }}
 {{ json_spaces(loop.depth + 2) }}]{% if not loop.last %},
 {% endif %}
-{% elif "null" in value.__class__.__name__ %}
+{% elif value == "null" %}
 {{ json_spaces(loop.depth + 2) }}null{% if not loop.last %},
 {% endif %}
 {% elif "str" in member.value.__class__.__name__ %}
 {{ json_spaces(loop.depth + 2) }}"{{ value }}"{% if not loop.last %},
 {% endif %}
 {% elif "bool" in member.value.__class__.__name__ %}
-{{ json_spaces(loop.depth + 2) }}{{ value }}{% if not loop.last %},
+{{ json_spaces(loop.depth + 2) }}{{ value|string|lower }}{% if not loop.last %},
 {% endif %}
 {% elif "int" in member.value.__class__.__name__ %}
 {{ json_spaces(loop.depth + 2) }}{{ value }}{% if not loop.last %},
@@ -120,14 +140,14 @@ describe("{{function.name}}", () => {
 {{ json_spaces(loop.depth + 2) }}]{% if not loop.last %},{% endif %}
 {% endif %}
 {% endfor %}
-{% elif "null" in member.value.__class__.__name__ %}
+{% elif member.value == null %}
 {{ json_spaces(loop.depth + 2) }}{{ member.key }}: null{% if not loop.last %},
 {% endif %}
 {% elif "str" in member.value.__class__.__name__ %}
 {{ json_spaces(loop.depth + 2) }}{{ member.key }}: "{{ member.value }}"{% if not loop.last %},
 {% endif %}
 {% elif "bool" in member.value.__class__.__name__ %}
-{{ json_spaces(loop.depth + 2) }}{{ member.key }}: {{ member.value }}{% if not loop.last %},
+{{ json_spaces(loop.depth + 2) }}{{ member.key }}: {{ member.value|string|lower }}{% if not loop.last %},
 {% endif %}
 {% elif "int" in member.value.__class__.__name__ %}
 {{ json_spaces(loop.depth + 2) }}{{ member.key }}: {{ member.value }}{% if not loop.last %},
@@ -136,8 +156,12 @@ describe("{{function.name}}", () => {
 {% endfor %}
     
     });
-      {% else %}
+      {% elif case.output.type == "string" %}
+    expect(result).toEqual("{{case.output.value}}");
+      {% elif case.output.type == "int" or case.output.type == "null" %}
     expect(result).toEqual({{case.output.value}});
+      {% elif case.output.type == "bool" %}
+    expect(result).toEqual({{case.output.value|string|lower}});
       {% endif %}
     {% endif %}
   });

@@ -1,0 +1,63 @@
+
+    digraph textX {
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    node[
+        shape=record,
+        style=filled,
+        fillcolor=aliceblue
+    ]
+    nodesep = 0.3
+    edge[dir=black,arrowtail=empty]
+
+
+4420583872[ label="{Suite|type: AppType\l}"]
+
+4420587280[ label="{Function|name: ID\l}"]
+
+4420590688[ label="{Environment|type: ValueType\l}"]
+
+4420582928[ label="{Case|name: ID\l}"]
+
+4420594672[ label="{Input|type: ValueType\l}"]
+
+4420598080[ label="{Output|type: ValueType\l}"]
+
+4420604896[ label="{*Value|}"]
+
+4420608304[ label="{JSONArray|}"]
+
+4420611712[ label="{JSONObject|}"]
+
+4420615120[ label="{Member|key: STRING\l}"]
+
+
+
+4420583872 -> 4420587280[arrowtail=diamond, dir=both, headlabel="functions 1..*"]
+4420587280 -> 4420590688[arrowtail=diamond, dir=both, headlabel="env "]
+4420587280 -> 4420582928[arrowtail=diamond, dir=both, headlabel="cases 1..*"]
+4420590688 -> 4420604896[arrowtail=diamond, dir=both, headlabel="value "]
+4420582928 -> 4420590688[arrowtail=diamond, dir=both, headlabel="env "]
+4420582928 -> 4420594672[arrowtail=diamond, dir=both, headlabel="input "]
+4420582928 -> 4420598080[arrowtail=diamond, dir=both, headlabel="output "]
+4420594672 -> 4420604896[arrowtail=diamond, dir=both, headlabel="value "]
+4420598080 -> 4420604896[arrowtail=diamond, dir=both, headlabel="value "]
+4420604896 -> 4420611712 [dir=back]
+4420604896 -> 4420608304 [dir=back]
+4420608304 -> 4420604896[arrowtail=diamond, dir=both, headlabel="values 0..*"]
+4420611712 -> 4420615120[arrowtail=diamond, dir=both, headlabel="members 0..*"]
+4420615120 -> 4420604896[arrowtail=diamond, dir=both, headlabel="value "]
+match_rules [ shape=plaintext, label=< <table>
+	<tr>
+		<td><b>AppType</b></td><td>JS|PY</td>
+	</tr>
+	<tr>
+		<td><b>Comment</b></td><td>\/\/.*$</td>
+	</tr>
+	<tr>
+		<td><b>ValueType</b></td><td>string|int|bool|json|null</td>
+	</tr>
+</table> >]
+
+
+}

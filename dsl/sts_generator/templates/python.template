@@ -13,15 +13,23 @@ from unittest import mock
 from {{function.name}} import handler
 
 
-{% if function.env%}
+{% if function.env %}
 @pytest.fixture(autouse=True)
 def mock_env_vars():
+  {% if function.env.type == "json" %}
     with mock.patch.dict(os.environ, {
-  {% for env_var in function.env.value.members %}
+    {% for env_var in function.env.value.members %}
         "{{env_var.key}}": "{{env_var.value}}"{{ "," if not loop.last else "" }}
-  {% endfor %}
+    {% endfor %}
     }):
         yield
+  {% elif function.env.type == "string" %}
+    with mock.patch(os.environ, "{{function.env.value}}"):
+        yield
+  {% elif function.env.type == "int" or function.env.type == "bool" or function.env.type == "null" %}
+    with mock.patch(os.environ, {{function.env.value}}):
+        yield
+  {% endif %}
 
 
 {% endif %}
@@ -29,12 +37,23 @@ def mock_env_vars():
 {% if case.env %}
 @pytest.fixture()
 def mock_env_vars_{{case.name}}():
+  {% if case.env.type == "json" %}
     with mock.patch.dict(os.environ, {
-  {% for env_var in case.env.value.members %}
+    {% for env_var in case.env.value.members %}
         "{{env_var.key}}": "{{env_var.value}}"{{ "," if not loop.last else "" }}
-  {% endfor %}
+    {% endfor %}
     }):
         yield
+  {% elif case.env.type == "string" %}
+    with mock.patch(os.environ, "{{case.env.value}}"):
+        yield
+  {% elif case.env.type == "null" %}
+    with mock.patch(os.environ, None):
+        yield
+  {% elif case.env.type == "int" or case.env.type == "bool" %}
+    with mock.patch(os.environ, {{case.env.value}}):
+        yield
+  {% endif %}
 
 
 {% endif %}
@@ -59,7 +78,7 @@ def {{case.name}}({%- if case.env %}mock_env_vars_{{case.name}}{% endif -%}):
 [{{ loop(value.values) }}
 {{ json_spaces(loop.depth + 1) }}]{% if not loop.last %},
 {% endif %}
-{% elif "null" in value.__class__.__name__ %}
+{% elif value == "null" %}
 {{ json_spaces(loop.depth + 1) }}None{% if not loop.last %},
 {% endif %}
 {% elif "str" in member.value.__class__.__name__ %}
@@ -74,8 +93,8 @@ def {{case.name}}({%- if case.env %}mock_env_vars_{{case.name}}{% endif -%}):
 {{ json_spaces(loop.depth + 1) }}]{% if not loop.last %},{% endif %}
 {% endif %}
 {% endfor %}
-{% elif "null" in member.value.__class__.__name__ %}
-{{ json_spaces(loop.depth + 1) }}"{{ member.key }}": null{% if not loop.last %},
+{% elif member.value == "null" %}
+{{ json_spaces(loop.depth + 1) }}"{{ member.key }}": None{% if not loop.last %},
 {% endif %}
 {% elif "str" in member.value.__class__.__name__ %}
 {{ json_spaces(loop.depth + 1) }}"{{ member.key }}": "{{ member.value }}"{% if not loop.last %},
@@ -90,6 +109,8 @@ def {{case.name}}({%- if case.env %}mock_env_vars_{{case.name}}{% endif -%}):
 {% endfor %}
 
     }
+    {% elif case.input.type == "string" %}
+    event = "{{ case.input.value }}"
     {% else %}
     event = {{ "None" if case.input.value == "null" else case.input.value }}
     {% endif %}
@@ -119,7 +140,7 @@ def {{case.name}}({%- if case.env %}mock_env_vars_{{case.name}}{% endif -%}):
 [{{ loop(value.values) }}
 {{ json_spaces(loop.depth + 1) }}]{% if not loop.last %},
 {% endif %}
-{% elif "null" in value.__class__.__name__ %}
+{% elif value == "null" %}
 {{ json_spaces(loop.depth + 1) }}None{% if not loop.last %},
 {% endif %}
 {% elif "str" in member.value.__class__.__name__ %}
@@ -134,8 +155,8 @@ def {{case.name}}({%- if case.env %}mock_env_vars_{{case.name}}{% endif -%}):
 {{ json_spaces(loop.depth + 1) }}]{% if not loop.last %},{% endif %}
 {% endif %}
 {% endfor %}
-{% elif "null" in member.value.__class__.__name__ %}
-{{ json_spaces(loop.depth + 1) }}"{{ member.key }}": null{% if not loop.last %},
+{% elif member.value == "null" %}
+{{ json_spaces(loop.depth + 1) }}"{{ member.key }}": None{% if not loop.last %},
 {% endif %}
 {% elif "str" in member.value.__class__.__name__ %}
 {{ json_spaces(loop.depth + 1) }}"{{ member.key }}": "{{ member.value }}"{% if not loop.last %},
@@ -150,8 +171,10 @@ def {{case.name}}({%- if case.env %}mock_env_vars_{{case.name}}{% endif -%}):
 {% endfor %}
 
     }
+    {% elif case.output.type == "string" %}
+    assert result == "{{ case.output.value }}"
     {% else %}
-    assert result == {{case.output.value}}
+    assert result == {{ "None" if case.output.type == "null" else case.output.value }}
     {% endif %}
   {% endif %}
 {% if not loop.last %}
