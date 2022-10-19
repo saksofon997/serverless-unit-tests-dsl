@@ -9,7 +9,7 @@ setup(
     url="https://github.com/saksofon997/serverless-unit-tests-dsl",
     long_description="file: README.md",
     long_description_content_type="text/markdown",
-    version="0.0.1",
+    version="0.0.3",
     packages=find_packages(),
     include_package_data=True,
     package_data={"": ["*.tx", "sts_generator/**/*.template", "sts_generator/**/*.py"]},
@@ -24,7 +24,7 @@ setup(
         ]
     },
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
+        "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers"
     ],
 )

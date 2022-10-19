@@ -3,6 +3,10 @@
   "displayName": "ServerlessTestS",
   "description": "Syntax highlighting for the ServerlessTestS language.",
   "version": "0.0.1",
+  "icon": "images/icon.png",
+  "repository": {
+    "url": "https://github.com/saksofon997/serverless-unit-tests-dsl"
+  },
   "publisher": "Aleksandar Petaković",
   "engines": {
     "vscode": "^1.67.0"
