@@ -1,3 +1,5 @@
+// Example ServerlessTestS file
+
 < type = PY >
 
 < function = hello
@@ -11,7 +13,7 @@
       {
         "headers": {
           "headerName1": "Value1",
-          "headerName2": "Value2"
+          "headerName2": null
         },
         "body": {
           "fieldName": "Value3"
@@ -21,7 +23,7 @@
     < output = json
       {
         "statusCode": 200,
-        "body": "{\\"message\\":\\"Hello Serverless!\\"}"
+        "body": "{\\"message\\": \\"Hello Serverless!\\"}"
       }
     >
   >
@@ -36,7 +38,7 @@
     < output = json
       {
         "statusCode": 400,
-        "body":"{\\"message\\":\\"Bad Request!\\"}"
+        "body":"{\\"message\\": \\"Bad Request!\\"}"
       }
     >
   >
@@ -58,8 +60,8 @@
   >
 >
 
-< function = math
-  < case = mathCase1
+< function = calculate
+  < case = calculateCase1
     < env = json
       {
         "OPERATION": "multiply"
@@ -75,7 +77,7 @@
       6
     >
   >
-  < case = mathCase2
+  < case = calculateCase2
     < env = json
       {
         "OPERATION": "add"

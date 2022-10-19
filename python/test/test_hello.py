@@ -16,7 +16,7 @@ def mock_env_vars():
         yield
 
 
-def helloCase1():
+def test_helloCase1():
     event = {
         "headers": {
             "headerName1": "Value1",
@@ -31,17 +31,11 @@ def helloCase1():
 
     assert result == {
         "statusCode": 200,
-        "body": "{\"message\":\"Hello Serverless!\"}"
+        "body": "{\"message\": \"Hello Serverless!\"}"
     }
 
 
-@pytest.fixture()
-def mock_env_vars_helloCase2():
-    with mock.patch(os.environ, None):
-        yield
-
-
-def helloCase2(mock_env_vars_helloCase2):
+def test_helloCase2():
     event = {
         "headers": {
             "badHeader": "Value1"
@@ -52,5 +46,5 @@ def helloCase2(mock_env_vars_helloCase2):
 
     assert result == {
         "statusCode": 400,
-        "body": "{\"message\":\"Bad Request!\"}"
+        "body": "{\"message\": \"Bad Request!\"}"
     }

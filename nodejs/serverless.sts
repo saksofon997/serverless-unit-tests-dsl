@@ -1,3 +1,5 @@
+// Example ServerlessTestS file
+
 < type = JS >
 
 < function = hello
@@ -11,7 +13,7 @@
       {
         "headers": {
           "headerName1": "Value1",
-          "headerName2": "Value2"
+          "headerName2": null
         },
         "body": {
           "fieldName": "Value3"
@@ -26,6 +28,9 @@
     >
   >
   < case = helloCase2
+    < env = null
+      null
+    >
     < input = json
       {
         "headers": {
@@ -58,8 +63,8 @@
   >
 >
 
-< function = math
-  < case = mathCase1
+< function = calculate
+  < case = calculateCase1
     < env = json
       {
         "OPERATION": "multiply"
@@ -75,7 +80,7 @@
       6
     >
   >
-  < case = mathCase2
+  < case = calculateCase2
     < env = json
       {
         "OPERATION": "add"

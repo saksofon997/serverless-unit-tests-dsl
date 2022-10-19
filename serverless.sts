@@ -46,13 +46,13 @@
     >
   >
 >
-// This is a comment
+
 < function = activity
   < env = json
     {
       "API_URL": "https://www.boredapi.com/api/activity"
     }
-  > // This is also a comment
+  >
   < case = activityCase1
     < input = null null >
     < output = json
@@ -63,8 +63,8 @@
   >
 >
 
-< function = math
-  < case = mathCase1
+< function = calculate
+  < case = calculateCase1
     < env = json
       {
         "OPERATION": "multiply"
@@ -80,7 +80,7 @@
       6
     >
   >
-  < case = mathCase2
+  < case = calculateCase2
     < env = json
       {
         "OPERATION": "add"

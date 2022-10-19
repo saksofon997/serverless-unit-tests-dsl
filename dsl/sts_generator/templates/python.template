@@ -57,7 +57,7 @@ def mock_env_vars_{{case.name}}():
 
 
 {% endif %}
-def {{case.name}}({%- if case.env %}mock_env_vars_{{case.name}}{% endif -%}):
+def test_{{case.name}}({%- if case.env %}mock_env_vars_{{case.name}}{% endif -%}):
   {% if case.input %}
     {% if case.input.type == "json" %}
     event = {

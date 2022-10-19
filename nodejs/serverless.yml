@@ -28,8 +28,8 @@ functions:
           path: activity
           method: get
   
-  math:
-    handler: math.handler
+  calculate:
+    handler: calculate.handler
     events:
       - http:
           path: activity

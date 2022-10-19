@@ -94,13 +94,13 @@ describe("hello", () => {
 });
 ```
 
-### Requirements
+## Requirements
 
 - [Install the Serverless Framework](https://serverless.com/framework/docs/providers/aws/guide/installation/)
 - [Configure your AWS CLI](https://serverless.com/framework/docs/providers/aws/guide/credentials/)
 - [textX](https://github.com/textX/textX)
 
-### Installation
+## Installation
 
 Install the Node.js packages
 
@@ -116,7 +116,7 @@ $ pip install -r requirements.txt
 
 Install textX
 
-### Serverless Usage
+## Serverless Usage
 
 To simulate API Gateway locally using [serverless-offline](https://github.com/dherault/serverless-offline)
 
@@ -130,7 +130,7 @@ Deploy your project
 $ serverless deploy
 ```
 
-### Tests Usage
+## Tests Usage
 
 Generate tests using
 
@@ -138,16 +138,20 @@ Generate tests using
 $ textx generate serverless.sts --target sts-lang -o test
 ```
 
-#### Running Tests
+## Running Tests
 
-Run your tests using
+Run your JavaScript tests using
 
 ```bash
 $ npm test
 ```
 
-For python, run tests using:
+from the `nodejs` folder.
+
+Run your Python tests using:
 
 ```bash
 $ python -m pytest
 ```
+
+from the `python` folder.

@@ -5,18 +5,18 @@ import os
 import pytest
 
 from unittest import mock
-from math import handler
+from calculate import handler
 
 
 @pytest.fixture()
-def mock_env_vars_mathCase1():
+def mock_env_vars_calculateCase1():
     with mock.patch.dict(os.environ, {
         "OPERATION": "multiply"
     }):
         yield
 
 
-def mathCase1(mock_env_vars_mathCase1):
+def test_calculateCase1(mock_env_vars_calculateCase1):
     event = {
         "a": 2,
         "b": 3
@@ -28,14 +28,14 @@ def mathCase1(mock_env_vars_mathCase1):
 
 
 @pytest.fixture()
-def mock_env_vars_mathCase2():
+def mock_env_vars_calculateCase2():
     with mock.patch.dict(os.environ, {
         "OPERATION": "add"
     }):
         yield
 
 
-def mathCase2(mock_env_vars_mathCase2):
+def test_calculateCase2(mock_env_vars_calculateCase2):
     event = {
         "a": 2,
         "b": 3

@@ -16,7 +16,7 @@ def mock_env_vars():
         yield
 
 
-def activityCase1():
+def test_activityCase1():
     event = None
 
     result = handler(event, [])

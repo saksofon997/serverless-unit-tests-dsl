@@ -6,5 +6,5 @@ export async function handler(event) {
     parse: "json",
   });
 
-  return { statusCode: 200, body: JSON.stringify(res.body) };
+  return { statusCode: res.statusCode };
 }
