@@ -51,5 +51,5 @@ $ pip install -e dsl
 Now it is possible to use the generator through textX, example:
 
 ```bash
-$ textx generate serverless.sts --target sts-lang -o test
+$ textx sts-generate --model serverless.sts --output tests
 ```

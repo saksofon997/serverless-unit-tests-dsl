@@ -9,12 +9,16 @@ setup(
     url="https://github.com/saksofon997/serverless-unit-tests-dsl",
     long_description="file: README.md",
     long_description_content_type="text/markdown",
-    version="0.0.3",
+    version="0.1.1",
     packages=find_packages(),
     include_package_data=True,
-    package_data={"": ["*.tx", "sts_generator/**/*.template", "sts_generator/**/*.py"]},
+    package_data={
+        "": ["*.tx", "sts_generator/**/*.template", "sts_generator/**/*.py"]},
     install_requires=["Arpeggio", "textX[cli]", "Jinja2", "future", "textX"],
     entry_points={
+        "textx_commands": [
+            "sts-generate = sts_generator.main:sts_generate"
+        ],
         "textx_languages": [
             "serverless_unit_test_dsl = sts_generator.main:serverless_unit_test_dsl",
         ],

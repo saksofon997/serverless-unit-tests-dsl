@@ -1,5 +1,4 @@
 export async function handler(event) {
-  console.log(event);
   if ("badHeader" in event.headers) {
     return {
       statusCode: 400,

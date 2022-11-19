@@ -11,7 +11,7 @@ def check_env_unique(jsonObj):
 
         if len(duplicate_keys) != 0:
             raise TextXSemanticError(
-                f"Duplicate environment variable keys found {duplicate_keys}, on\n\n{get_location(jsonObj)}")
+                f"\nERROR: Duplicate environment variable keys found:\n{duplicate_keys}, on:\n{get_location(jsonObj)}")
 
         for member in jsonObj.members:
             check_env_unique(member)

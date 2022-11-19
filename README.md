@@ -135,7 +135,7 @@ $ serverless deploy
 Generate tests using
 
 ```bash
-$ textx generate serverless.sts --target sts-lang -o test
+$ textx sts-generate --model serverless.sts --output tests
 ```
 
 ## Running Tests
